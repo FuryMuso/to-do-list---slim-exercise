@@ -1,0 +1,81 @@
+<?php
+
+include_once('src/classes/viewHelper/ViewHelperMethods.php');
+$helper = new ViewHelperMethods();
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta CHARSET="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h1 style="text-decoration:underline;">'To Do List' Task In OOP</h1>
+    <br>
+    <br>
+    <form method="GET" action="/createTask">
+        <div class="form-group">
+            <label>Add a to do</label>
+            <input type="text" class="form-control" placeholder="Add to do here..." name="submitData">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Add To Do</button>
+    </form>
+    <br>
+    <br>
+    <br>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Message</th>
+            <th scope="col">Done</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach ($tasks as $task) {
+        if ($helper->checkDoneStatus($task, 0)) {
+        echo "<tr>
+            <td>" . $task['id'] . "</td>
+            " . $helper->displayToDo($task) . "
+            <td>
+                <form method='GET' action='/markAsDone'>
+                    <button type='submit' class='btn btn-warning' name='task' value='" . $task['id'] . "'>Done</button>
+                </form>
+            </td>
+            <td></td>
+        </tr>";
+        }
+        }
+        ?>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Complete To Dos</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($tasks as $task) {
+            if ($helper->checkDoneStatus($task, 1)) {
+                echo "<tr>";
+                echo $helper->displayToDo($task);
+                echo "</tr>";
+            }
+        } ;?>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
